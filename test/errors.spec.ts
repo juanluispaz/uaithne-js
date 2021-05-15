@@ -575,7 +575,7 @@ test('change OperationExecutionError stringify operation method', () => {
         return '###'
     }
     const error = new OperationExecutionError(operation, context, getOtherPersons, 'My Error')
-    OperationExecutionError.stringify = old
+    OperationExecutionError.stringifyOperation = old
     expect(error.message).toEqual('My Error\nOperation type: getOtherPersons\nOperation: ###\nContext: {"db":"database url"}')
 })
 
