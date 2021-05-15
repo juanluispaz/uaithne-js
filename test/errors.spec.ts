@@ -569,14 +569,24 @@ test('interceptor throwing an OperationExecutionError (different operation type)
     return undefined
 })
 
-test('change OperationExecutionError stringify method', () => {
-    const old = OperationExecutionError.stringify
-    OperationExecutionError.stringify = (_value) => {
+test('change OperationExecutionError stringify operation method', () => {
+    const old = OperationExecutionError.stringifyOperation
+    OperationExecutionError.stringifyOperation = (_value) => {
         return '###'
     }
     const error = new OperationExecutionError(operation, context, getOtherPersons, 'My Error')
-    OperationExecutionError.stringify = old
-    expect(error.message).toEqual('My Error\nOperation type: getOtherPersons\nOperation: ###\nContext: ###')
+    OperationExecutionError.stringifyOperation = old
+    expect(error.message).toEqual('My Error\nOperation type: getOtherPersons\nOperation: ###\nContext: {"db":"database url"}')
+})
+
+test('change OperationExecutionError stringify context method', () => {
+    const old = OperationExecutionError.stringifyContext
+    OperationExecutionError.stringifyContext = (_value) => {
+        return '###'
+    }
+    const error = new OperationExecutionError(operation, context, getOtherPersons, 'My Error')
+    OperationExecutionError.stringifyContext = old
+    expect(error.message).toEqual('My Error\nOperation type: getOtherPersons\nOperation: {"name":"person name"}\nContext: ###')
 })
 
 test('change OperationExecutionError createErrorMessage method', () => {
