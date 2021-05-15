@@ -14,7 +14,7 @@
     "dist-beta": "npm run prepare && npm publish --tag beta",
     "test": "jest",
     "test-coverage": "jest --coverage",
-    "test-coveralls": "jest --coverage --coverageReporters=text-lcov | coveralls"
+    "test-coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "keywords": [
     "architecture",

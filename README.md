@@ -1,4 +1,4 @@
-# Uaithne <!-- omit in toc -->
+# Uaithne JS <!-- omit in toc -->
 
 [![npm](https://img.shields.io/npm/v/uaithne.svg)](http://npm.im/uaithne)
 [![travis](https://travis-ci.org/juanluispaz/uaithne-js.svg?branch=master)](https://travis-ci.org/juanluispaz/uaithne-js)
