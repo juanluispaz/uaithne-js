@@ -9,9 +9,9 @@
   "scripts": {
     "example": "ts-node example/example.ts",
     "build": "rm -rf dist/*; tsc --project tsconfig.src.json",
-    "prepare": "npm run build && cp LICENSE.md package.json README.md dist && cp -R readme dist && cd dist && rm readme/readme.ts",
-    "dist": "npm run prepare && npm publish",
-    "dist-beta": "npm run prepare && npm publish --tag beta",
+    "prepare": "npm run build && cp LICENSE.md package.json README.md dist && cp -R readme dist && rm dist/readme/readme.ts",
+    "dist": "npm run prepare && cd dist && npm publish",
+    "dist-beta": "npm run prepare && cd dist && npm publish --tag beta",
     "test": "jest",
     "test-coverage": "jest --coverage",
     "test-coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls"
