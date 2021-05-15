@@ -1,8 +1,8 @@
 # Uaithne <!-- omit in toc -->
 
 [![npm](https://img.shields.io/npm/v/uaithne.svg)](http://npm.im/uaithne)
-[![travis](https://travis-ci.org/juanluispaz/uaithne.svg?branch=master)](https://travis-ci.org/juanluispaz/uaithne)
-[![Coverage Status](https://img.shields.io/coveralls/juanluispaz/uaithne/master.svg)](https://coveralls.io/github/juanluispaz/uaithne?branch=master)
+[![travis](https://travis-ci.org/juanluispaz/uaithne.svg?branch=master)](https://travis-ci.org/juanluispaz/uaithne-js)
+[![Coverage Status](https://img.shields.io/coveralls/juanluispaz/uaithne/master.svg)](https://coveralls.io/github/juanluispaz/uaithne-js?branch=master)
 [![minified size](https://badgen.net/bundlephobia/min/uaithne)](https://bundlephobia.com/result?p=uaithne)
 [![minified & gziped size](https://badgen.net/bundlephobia/minzip/uaithne)](https://bundlephobia.com/result?p=uaithne)
 
