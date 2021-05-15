@@ -1,0 +1,52 @@
+{
+  "name": "uaithne",
+  "version": "0.10.0",
+  "description": "Agile backend architecture oriented to improve the productivity of the development team",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "example": "ts-node example/example.ts",
+    "build": "rm -rf dist/*; tsc --project tsconfig.src.json",
+    "prepare": "npm run build && cp LICENSE.md package.json README.md dist && cp -R readme dist && cd dist && rm readme/readme.ts",
+    "dist": "npm run prepare && npm publish",
+    "dist-beta": "npm run prepare && npm publish --tag beta",
+    "test": "jest",
+    "test-coverage": "jest --coverage",
+    "test-coveralls": "jest --coverage --coverageReporters=text-lcov | coveralls"
+  },
+  "keywords": [
+    "architecture",
+    "compose",
+    "composable",
+    "backend",
+    "aspect",
+    "aop",
+    "aspect oriented programming",
+    "command",
+    "operation",
+    "chain of responsibility",
+    "strategy"
+  ],
+  "author": {
+    "name": "Juan Luis Paz Rojas",
+    "url": "http://github.com/juanluispaz"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/juanluispaz/uaithne-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/juanluispaz/uaithne-js/issues"
+  },
+  "homepage": "https://github.com/juanluispaz/uaithne-js",
+  "devDependencies": {
+    "@types/jest": "^26.0.23",
+    "coveralls": "^3.1.0",
+    "jest": "^26.6.3",
+    "ts-jest": "^26.5.6",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
+  }
+}
