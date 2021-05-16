@@ -56,7 +56,7 @@ Agile backend architecture oriented to improve the productivity of the developme
   - [Get the operation argument type](#get-the-operation-argument-type-1)
   - [Get the executor context type](#get-the-executor-context-type)
   - [Public error](#public-error)
-  - [Error of an operation execution](#error-of-an-operation-execution)
+  - [Operation execution error](#operation-execution-error)
 - [License](#license)
 
 ## Install
@@ -162,9 +162,18 @@ All operations type must be an instance of the ​`OperationType`​ class which
 ```ts
 class OperationType<Op, Result> {
     constructor(name: string);
-    implementAs<Context>(executor: (operation: Op, context: Context, operationType: this) => Promise<Result>): Executor<Context>;
-    execute<Context>(operation: Op, context: Context, executor: Executor<Context>): Promise<Result>;
-    execute(operation: Op, fn: (operation: Op, operationType: this) => Promise<Result>): Promise<Result>;
+    implementAs<Context>(
+        executor: (operation: Op, context: Context, operationType: this) => Promise<Result>
+    ): Executor<Context>;
+    execute<Context>(
+        operation: Op, 
+        context: Context, 
+        executor: Executor<Context>
+    ): Promise<Result>;
+    execute(
+        operation: Op, 
+        fn: (operation: Op, operationType: this) => Promise<Result>
+    ): Promise<Result>;
 }
 ```
 
@@ -341,13 +350,35 @@ class OperationExecutionError extends Error {
     readonly operation: unknown;
     readonly context: unknown;
 
-    constructor(operation: unknown, context: unknown, operationType: OperationType<unknown, unknown>, message?: string, cause?: unknown);
+    constructor(
+        operation: unknown, 
+        context: unknown, 
+        operationType: OperationType<unknown, unknown>, 
+        message?: string, 
+        cause?: unknown
+    );
     
-    sameContent(operation: unknown, context: unknown, operationType: OperationType<unknown, unknown>): boolean;
+    sameContent(
+        operation: unknown, 
+        context: unknown, 
+        operationType: OperationType<unknown, unknown>
+    ): boolean;
     
-    static stringifyContext: (context: unknown, operationType: OperationType<unknown, unknown>) => string;
-    static stringifyOperation: (operation: unknown, operationType: OperationType<unknown, unknown>) => string;
-    static createErrorMessage: (operation: unknown, context: unknown, operationType: OperationType<unknown, unknown>, message?: string, cause?: unknown) => string;
+    static stringifyContext: (
+        context: unknown, 
+        operationType: OperationType<unknown, unknown>
+    ) => string;
+    static stringifyOperation: (
+        operation: unknown, 
+        operationType: OperationType<unknown, unknown>
+    ) => string;
+    static createErrorMessage: (
+        operation: unknown, 
+        context: unknown, 
+        operationType: OperationType<unknown, unknown>, 
+        message?: string, 
+        cause?: unknown
+    ) => string;
 }
 ```
 
@@ -591,9 +622,18 @@ class OperationType<Op, Result> {
 
     constructor(name: string);
 
-    implementAs<Context>(executor: (operation: Op, context: Context, operationType: this) => Promise<Result>): Executor<Context>;
-    execute<Context>(operation: Op, context: Context, executor: Executor<Executor>): Promise<Result>;
-    execute(operation: Op, fn: (operation: Op, operationType: this) => Promise<Result>): Promise<Result>;
+    implementAs<Context>(
+        executor: (operation: Op, context: Context, operationType: this) => Promise<Result>
+    ): Executor<Context>;
+    execute<Context>(
+        operation: Op, 
+        context: Context, 
+        executor: Executor<Executor>
+    ): Promise<Result>;
+    execute(
+        operation: Op, 
+        fn: (operation: Op, operationType: this) => Promise<Result>
+    ): Promise<Result>;
 }
 ```
 
@@ -642,7 +682,15 @@ Combine multiple executors in a single one. If an operation is implemented in se
 ### Intercept any operation
 
 ```ts
-function interceptAnyOperation<Context>(executor: Executor<Context>, interceptor: (operation: unknown, context: Context, operationType: OperationType<unknown, unknown>, next: Executor<Context>) => Promise<unknown>): Executor<Context>
+function interceptAnyOperation<Context>(
+    executor: Executor<Context>, 
+    interceptor: (
+        operation: unknown, 
+        context: Context, 
+        operationType: OperationType<unknown, unknown>, 
+        next: Executor<Context>
+    ) => Promise<unknown>
+): Executor<Context>
 ```
 
 Create an executor that intercept the execution of any operation implemented by the executor received as first argument.
@@ -656,7 +704,10 @@ Create an executor that intercept the execution of any operation implemented by 
 ### Filter the operations implemented by an executor
 
 ```ts
-function filterImplementationsByOperationType<Context>(executor: Executor<Context>, filter: (operationType: OperationType<unknown, unknown>) => boolean): Executor<Context>
+function filterImplementationsByOperationType<Context>(
+    executor: Executor<Context>, 
+    filter: (operationType: OperationType<unknown, unknown>) => boolean
+): Executor<Context>
 ```
 
 Create an executor that only implements the operations approved by the filter function passed as second argument from the executor passed as first argument. It returns a new executor that contains the approved operations.
@@ -670,7 +721,10 @@ Create an executor that only implements the operations approved by the filter fu
 ### Verify if an executor implements an operation
 
 ```ts
-function hasOperationImplementation(executor: Executor<any>, operationType: OperationType<unknown, unknown>): boolean
+function hasOperationImplementation(
+    executor: Executor<any>, 
+    operationType: OperationType<unknown, unknown>
+): boolean
 ```
 
 Allows to verify if an executor contains an implementation for an operation type.
@@ -684,7 +738,9 @@ Allows to verify if an executor contains an implementation for an operation type
 ### Get the implemented operation's type
 
 ```ts
-function getImplementedOperations(executor: Executor<any>): OperationType<unknown, unknown>[]
+function getImplementedOperations(
+    executor: Executor<any>
+): OperationType<unknown, unknown>[]
 ```
 
 Obtains a list with the operation type implemented within the executor provided as argument.
@@ -697,7 +753,10 @@ Obtains a list with the operation type implemented within the executor provided 
 ### Get the type of an implemented operation by its name
 
 ```ts
-function getImplementedOperationByName(executor: Executor<any>, operationName: string): OperationType<unknown, unknown> | undefined
+function getImplementedOperationByName(
+    executor: Executor<any>, 
+    operationName: string
+): OperationType<unknown, unknown> | undefined
 ```
 
 Obtains the operation type of an implemented operation given its name (as second argument) from a executor (received as first argument).
@@ -759,7 +818,7 @@ Class that represent a public error; this means, it this not transformed by uait
 **Properties** (additional to the `Error` class):
 - `cause`: error that originated this error.
 
-### Error of an operation execution
+### Operation execution error
 
 ```ts
 class OperationExecutionError extends Error {
@@ -769,13 +828,35 @@ class OperationExecutionError extends Error {
     readonly operation: unknown;
     readonly context: unknown;
 
-    constructor(operation: unknown, context: unknown, operationType: OperationType<unknown, unknown>, message?: string, cause?: unknown);
+    constructor(
+        operation: unknown, 
+        context: unknown, 
+        operationType: OperationType<unknown, unknown>, 
+        message?: string, 
+        cause?: unknown
+    );
     
-    sameContent(operation: unknown, context: unknown, operationType: OperationType<unknown, unknown>): boolean;
+    sameContent(
+        operation: unknown, 
+        context: unknown, 
+        operationType: OperationType<unknown, unknown>
+    ): boolean;
     
-    static stringifyContext: (context: unknown, operationType: OperationType<unknown, unknown>) => string;
-    static stringifyOperation: (operation: unknown, operationType: OperationType<unknown, unknown>) => string;
-    static createErrorMessage: (operation: unknown, context: unknown, operationType: OperationType<unknown, unknown>, message?: string, cause?: unknown) => string;
+    static stringifyContext: (
+        context: unknown, 
+        operationType: OperationType<unknown, unknown>
+    ) => string;
+    static stringifyOperation: (
+        operation: unknown, 
+        operationType: OperationType<unknown, unknown>
+    ) => string;
+    static createErrorMessage: (
+        operation: unknown, 
+        context: unknown, 
+        operationType: OperationType<unknown, unknown>, 
+        message?: string, 
+        cause?: unknown
+    ) => string;
 }
 ```
 
