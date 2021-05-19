@@ -27,6 +27,9 @@ export class PublicError extends Error {
         })
     }
 
+    static isPublicError: (error: unknown) => boolean = (error) => {
+        return error instanceof PublicError
+    }
 }
 
 export class OperationExecutionError extends Error {

@@ -328,8 +328,12 @@ If you want to have your own exceptions that Uaithne does not alter, these excep
 class PublicError extends Error {
     readonly cause: unknown;
     constructor(message?: string, cause?: unknown);
+
+    static isPublicError: (error: unknown) => boolean;
 }
 ```
+
+**Note**:​ You can replace the static property `isPublicError` to change what is considered a public error. The default implementation verifies if the error is an instance of the `PublicError` class.
 
 ### Internal errors
 
@@ -388,7 +392,7 @@ The ​`simpleMessage`​ property contains the simple message of the exception,
 
 When the exception is created, an extended error message is constructed with the string representation of the operation and the context object. Thus ensuring that the information contained there corresponds to the moment in which the exception was initiated. The error message will contain the value that the operation and the context object had at the time of the error. If the content of the context object or the operation changes during the treatment of the exception, the message will not reflect these changes. Having the string representation of the information allows you to recreate with accuracy the situation that caused it.
 
-**Note**:​ You can replace static property `stringifyOperation` or `stringifyContext` to specify a new function that transforms in JSON the operation or context. You can go even further and replace the static property `createErrorMessage`​ to specify a new function that constructs the error message of any `OperationExecutionError`.
+**Note**:​ You can replace the static property `stringifyOperation` or `stringifyContext` to specify a new function that transforms in JSON the operation or context. You can go even further and replace the static property `createErrorMessage`​ to specify a new function that constructs the error message of any `OperationExecutionError`.
 
 ## Execution bus
 
@@ -808,6 +812,8 @@ This type returns the type of the context object required to execute an operatio
 export declare class PublicError extends Error {
     readonly cause: unknown;
     constructor(message?: string, cause?: unknown);
+
+    static isPublicError: (error: unknown) => boolean;
 }
 ```
 
@@ -819,6 +825,9 @@ Class that represents a public error; this means it this not transformed by Uait
 
 **Properties** (additional to the `Error` class):
 - `cause`: error that originated this error.
+
+**Static methods** (you can replace with a new implementation):
+- `isPublicError`: a function that returns a boolean indicating if the error provided as an argument must be considered a public error. The default implementation verifies if the error is an instance of the `PublicError` cla
 
 ### Operation execution error
 

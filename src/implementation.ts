@@ -27,7 +27,7 @@ export function _implementExecutor<Type extends OperationType<any, any>, Context
                     throw error
                 }
                 throw new OperationExecutionError(operation, context, operationType, undefined, error)
-            } else if (error instanceof PublicError) {
+            } else if (PublicError.isPublicError(error)) {
                 throw error
             } else {
                 throw new OperationExecutionError(operation, context, operationType, undefined, error)
@@ -68,7 +68,7 @@ export function _implementInterceptor<Context>(operationType: OperationType<any,
                     throw error
                 }
                 throw new OperationExecutionError(operation, context, opType, undefined, error)
-            } else if (error instanceof PublicError) {
+            } else if (PublicError.isPublicError(error)) {
                 throw error
             } else {
                 throw new OperationExecutionError(operation, context, opType, undefined, error)
